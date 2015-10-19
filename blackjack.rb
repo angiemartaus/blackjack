@@ -29,7 +29,7 @@ class Game
   def dealer_hand_value
     dealer.collect{|x| x.value}.inject(:+)
   end
-
+#this is an unnecessary comment 
   def dealer_draw
     if dealer_hand_value < 16
       until dealer_hand_value >=16
