@@ -29,7 +29,7 @@ class Game
   def dealer_hand_value
     dealer.collect{|x| x.value}.inject(:+)
   end
-#this is an unnecessary comment 
+#this is an unnecessary comment
   def dealer_draw
     if dealer_hand_value < 16
       until dealer_hand_value >=16
@@ -83,16 +83,20 @@ class Game
   def compare_hands
     if player_hand_value < dealer_hand_value
       if dealer_hand_value <= 21
+        show_dealer_cards
         puts "You drew #{player_hand_value.to_s} but the dealer drew #{dealer_hand_value.to_s}-- DEALER WINS."
       else
+        show_dealer_cards
         puts "Dealer busts-- YOU WIN!"
       end
     elsif player_hand_value > dealer_hand_value
       if player_hand_value < 21
+        show_dealer_cards
         puts "You drew #{player_hand_value.to_s} to the dealer's #{dealer_hand_value.to_s}--YOU WIN!"
       elsif player_hand_value == 21
         puts "Blackjack-- YOU WIN!"
       else
+        show_dealer_cards
         puts "Bust-- DEALER WINS."
       end
     else
@@ -122,7 +126,12 @@ class Game
       new_game?
     end
   end
-
+  def show_dealer_cards
+    puts "The dealer has"
+    self.dealer.each do |c|
+      puts "    #{c.face} of #{c.suit}"
+    end
+  end
 end
 
 Game.new.play
