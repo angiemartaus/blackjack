@@ -29,7 +29,7 @@ class Game
   def dealer_hand_value
     dealer.collect{|x| x.value}.inject(:+)
   end
-#this is an unnecessary comment 
+#this is an unnecessary comment
   def dealer_draw
     if dealer_hand_value < 16
       until dealer_hand_value >=16
@@ -40,22 +40,16 @@ class Game
       puts "The dealer stays."
     end
   end
-
+  #I deleted your initial question asking about hitting or staying because you already had a method for it below and it was getting called once before and once after the dealer got his cards.  Player gets all of their cards before the dealer.
   def round
     puts "The dealer is showing the #{dealer.first.face} of #{dealer.first.suit}."
-    puts "You have the #{player.first.face} of #{player.first.suit} and the #{player.last.face} of #{player.last.suit}, worth #{player_hand_value.to_s} total.\nWould you like to hit or stay? (h/s)"
-    if STDIN.gets.chomp.downcase == "h"
-      player_hit
-      puts "You drew the #{player.last.face} of #{player.last.suit}."
-    else
-      puts "You're staying at #{player_hand_value.to_s}"
-    end
+    puts "You have the #{player.first.face} of #{player.first.suit} and the #{player.last.face} of #{player.last.suit}, worth"
+    check_player_hand
     if player_hand_value == 21
       puts "You're at 21-- YOU WIN!"
       new_game?
     end
-    dealer_draw
-    check_player_hand
+
   end
 
   def check_player_hand
@@ -81,18 +75,23 @@ class Game
   end
 
   def compare_hands
+    dealer_draw
     if player_hand_value < dealer_hand_value
       if dealer_hand_value <= 21
+        show_dealer_cards
         puts "You drew #{player_hand_value.to_s} but the dealer drew #{dealer_hand_value.to_s}-- DEALER WINS."
       else
+        show_dealer_cards
         puts "Dealer busts-- YOU WIN!"
       end
     elsif player_hand_value > dealer_hand_value
       if player_hand_value < 21
+        show_dealer_cards
         puts "You drew #{player_hand_value.to_s} to the dealer's #{dealer_hand_value.to_s}--YOU WIN!"
       elsif player_hand_value == 21
         puts "Blackjack-- YOU WIN!"
       else
+        show_dealer_cards
         puts "Bust-- DEALER WINS."
       end
     else
@@ -122,7 +121,12 @@ class Game
       new_game?
     end
   end
-
+  def show_dealer_cards
+    puts "The dealer has"
+    self.dealer.each do |c|
+      puts "    #{c.face} of #{c.suit}"
+    end
+  end
 end
 
 Game.new.play
