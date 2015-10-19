@@ -40,22 +40,16 @@ class Game
       puts "The dealer stays."
     end
   end
-
+  #I deleted your initial question asking about hitting or staying because you already had a method for it below and it was getting called once before and once after the dealer got his cards.  Player gets all of their cards before the dealer.
   def round
     puts "The dealer is showing the #{dealer.first.face} of #{dealer.first.suit}."
-    puts "You have the #{player.first.face} of #{player.first.suit} and the #{player.last.face} of #{player.last.suit}, worth #{player_hand_value.to_s} total.\nWould you like to hit or stay? (h/s)"
-    if STDIN.gets.chomp.downcase == "h"
-      player_hit
-      puts "You drew the #{player.last.face} of #{player.last.suit}."
-    else
-      puts "You're staying at #{player_hand_value.to_s}"
-    end
+    puts "You have the #{player.first.face} of #{player.first.suit} and the #{player.last.face} of #{player.last.suit}, worth"
+    check_player_hand
     if player_hand_value == 21
       puts "You're at 21-- YOU WIN!"
       new_game?
     end
-    dealer_draw
-    check_player_hand
+
   end
 
   def check_player_hand
@@ -81,6 +75,7 @@ class Game
   end
 
   def compare_hands
+    dealer_draw
     if player_hand_value < dealer_hand_value
       if dealer_hand_value <= 21
         show_dealer_cards
